@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="DAGE: Dual-Stream Architecture for Efficient and Fine-Grained Geometry Estimation">
+  <meta name="keywords" content="Reconstruction, Structure-from-Motion">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DAGE: Dual-Stream Architecture for Efficient and Fine-Grained Geometry Estimation</title>
+
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro">
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./projects/dage/figures/dage_logo.jpg" type="image/jpeg">
+  <style>
+    .container.is-max-desktop {
+      max-width: 80% !important;
+      width: 80% !important;
+    }
+    
+    .section .container {
+      max-width: 80% !important;
+      width: 80% !important;
+    }
+
+    .section-panel {
+      background-color: #f5f5f5;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      padding: 30px;
+      margin: 20px 0;
+    }
+  </style>
+
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YXDZHQRVSJ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-YXDZHQRVSJ');
+</script>
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <div class="hero-title-with-logo">
+            <img src="./projects/dage/figures/dage_logo.jpg" alt="DAGE logo" class="dage-logo"/>
+            <h2 class="title is-2 publication-title publication-title-two-line">
+              <span class="title-line-main">DAGE:</span><span class="title-line-sub"> Dual-Stream Architecture</span><br>
+              <span class="title-line-sub">for Efficient and Fine-Grained Geometry Estimation</span>
+            </h2>
+          </div>
+          <div class="is-size-5 publication-authors" style="margin-top: 0;">
+            <span class="author-block">
+                <a href="https://ngoductuanlhp.github.io/" target="_blank">Tuan Duc Ngo</a><sup>1</sup>,&nbsp;&nbsp;</span>
+            <span class="author-block">
+              <a href="https://gabriel-huang.github.io/" target="_blank">Jiahui Huang</a><sup>2</sup>,&nbsp;&nbsp;</span>
+            <span class="author-block">
+              <a href="https://sites.google.com/view/seoungwugoh/" target="_blank">Seoung Wug Oh</a><sup>2</sup>,&nbsp;&nbsp;</span>
+            <span class="author-block">
+                <span class="author-block">
+                    <a href="https://www.kmatzen.com/" target="_blank">Kevin Blackburn-Matzen</a><sup>2</sup>,&nbsp;&nbsp;</span>
+                </span>
+              <a href="https://kalo-ai.github.io/" target="_blank">Evangelos Kalogerakis</a><sup>1,3</sup>,&nbsp;&nbsp;</span>
+            <span class="author-block">
+              <a href="https://people.csail.mit.edu/ganchuang/" target="_blank">Chuang Gan</a><sup>1</sup>,&nbsp;&nbsp;</span>
+            <span class="author-block">
+              <a href="https://joonyoung-cv.github.io/" target="_blank">Joon-Young Lee</a><sup>2</sup></span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>UMass Amherst</span>
+            <span class="author-block"><sup>2</sup>Adobe Research</span>
+            <span class="author-block"><sup>3</sup>TU Crete</span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><strong style="color: #3b7ccb;">CVPR 2026</strong></span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a href="./projects/dage/paper.pdf" class="external-link button is-normal is-rounded is-dark" target="_blank" rel="noopener noreferrer">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="#" class="external-link button is-normal is-rounded is-dark link-disabled" onclick="return false;" title="Coming soon">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                </a>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="hero teaser" style="padding: 0 0 30px 0; margin-top: -40px;">
+    <div class="container fluid">
+        <div class="hero-body is-max-widescreen" style="padding-top: 10px;">
+            <div class="teaser-container" style="background-color: #f5f7fa; border-radius: 12px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); padding: 40px; max-width: 78%; margin: 0 auto;">
+                <center>
+                    <video id="teaser" preload="auto" autoplay muted loop playsinline controls width="100%" style="max-width: 980px; border-radius: 8px; box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);">
+                        <!-- <source src="./projects/dage/videos/teaser_video.MOV" type="video/quicktime"> -->
+                        <source src="./projects/dage/videos/dage_teaser.mp4" type="video/mp4">
+                    </video>
+                </center>
+                <div style="margin-top: 35px; text-align: center; padding: 0 20px;">
+                    <p style="font-size: 22px; line-height: 1.6; color: #2c3e50; font-weight: 400; margin: 0;">
+                        <strong style="color: #1976d2; font-weight: 600; font-size: 24px;">DAGE</strong> delivers accurate and consistent 3D geometry, fine-grained and high-resolution depthmaps, while maintaining efficiency and scalability.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section" style="background-color: #f5f5f5;">
+    <div class="container is-max-desktop">
+      <!-- Abstract. -->
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Abstract</h2>
+          <div class="content has-text-justified">
+            <p>
+                Estimating accurate, view-consistent geometry and camera poses from uncalibrated multi-view/video inputs remains challenging—especially at high spatial resolutions and over long sequences. 
+                We present DAGE, a dual-stream transformer whose main novelty is to disentangle global coherence from fine detail. 
+                A low-resolution stream operates on aggressively downsampled frames with alternating frame/global attention to build a view-consistent representation and estimate cameras efficiently, while a high-resolution stream processes the original images per-frame to preserve sharp boundaries and small structures. 
+                A lightweight adapter fuses these streams via cross-attention, injecting global context without disturbing the pretrained single-frame pathway. This design scales resolution and clip length independently, supports inputs up to 2K, and maintains practical inference cost. DAGE delivers sharp depth/pointmaps, strong cross-view consistency, and accurate poses, establishing new state-of-the-art results for video geometry estimation and multi-view reconstruction.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3 has-text-centered">Method</h2>
+        <div class="content has-text-centered">
+          <video width="100%" style="max-width: 980px; border-radius: 8px; box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);" controls muted loop playsinline preload="metadata">
+            <source src="./projects/dage/videos/dage_method.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </div>
+</section>
+
+
+
+<!-- Qualitative Comparison Carousels (adapted from VideoMaMa, ref: third_party/webpage/index.html) -->
+<section class="section">
+  <div class="container">
+    <h2 class="title is-3 has-text-centered">Qualitative Comparison</h2>
+
+    <!-- Carousel 1: Disparity (in-the-wild + AI-generated) -->
+    <div class="paper-container paper-container-carousel">
+      <h3 class="carousel-section-title">Disparity comparison with VGGT and Pi3 on in-the-wild and AI-generated videos</h3>
+      <button class="nav-floating-btn btn-left" onclick="navigateComparisonCarousel(-1, 'disp')">&#10094;</button>
+      <div class="master-wrapper">
+        <div class="layout-section comparison-section comp-single">
+          <div class="model-video-box single-video-box carousel-video-buffer">
+            <video id="carousel-main-video-disp" class="content-vid carousel-vid-active" muted loop playsinline preload="metadata"></video>
+            <video id="carousel-buffer-video-disp" class="content-vid carousel-vid-buffer" muted loop playsinline preload="metadata"></video>
+          </div>
+        </div>
+      </div>
+      <div class="gallery-title-container">
+        <h2 class="section-title">Choose a video</h2>
+      </div>
+      <section class="gallery-section">
+        <div class="gallery-grid compare-gallery-grid" id="compare-gallery-grid-disp"></div>
+      </section>
+      <button class="nav-floating-btn btn-right" onclick="navigateComparisonCarousel(1, 'disp')">&#10095;</button>
+    </div>
+
+    <!-- Carousel 2: Depth comparison -->
+    <div class="paper-container paper-container-carousel">
+      <h3 class="carousel-section-title">Depth comparison with GeometryCrafter on in-the-wild videos</h3>
+      <button class="nav-floating-btn btn-left" onclick="navigateComparisonCarousel(-1, 'depth')">&#10094;</button>
+      <div class="master-wrapper">
+        <div class="layout-section comparison-section comp-single">
+          <div class="model-video-box single-video-box carousel-video-buffer carousel-depth-video">
+            <video id="carousel-main-video-depth" class="content-vid carousel-vid-active" muted loop playsinline preload="metadata"></video>
+            <video id="carousel-buffer-video-depth" class="content-vid carousel-vid-buffer" muted loop playsinline preload="metadata"></video>
+          </div>
+        </div>
+      </div>
+      <div class="gallery-title-container">
+        <h2 class="section-title">Choose a video</h2>
+      </div>
+      <section class="gallery-section">
+        <div class="gallery-grid compare-gallery-grid" id="compare-gallery-grid-depth"></div>
+      </section>
+      <button class="nav-floating-btn btn-right" onclick="navigateComparisonCarousel(1, 'depth')">&#10095;</button>
+    </div>
+
+    <!-- <p class="caption">
+      <strong>Qualitative comparison of DAGE with state-of-the-art geometry estimation methods.</strong><br>
+      Click to pause or resume.
+    </p> -->
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Runtime</h2>
+    <div style="margin-top: 28px;"></div>
+    <div class="columns is-vcentered">
+      <div class="column is-one-fourth">
+        <figure>
+          <img src="./projects/dage/figures/runtime.png" alt="Inference time vs. number of frames for DAGE and Pi3 at 2K and 540p resolutions." width="100%" style="max-width: 100%; border-radius: 8px;"/>
+        </figure>
+      </div>
+      <div class="column is-three-fourths">
+        <div class="content has-text-justified">
+          <p>
+            Thanks to the dual-stream design, we restrict the computationally heavy global attention to the LR stream with a smaller number of image tokens, alleviating the quadratic scaling bottleneck of global transformers as in VGGT and Pi3. This significantly reduces runtime by 2× and 28× at 540p and 2K resolutions, respectively, enabling our model to process thousands of frames while keeping runtime largely insensitive to HR input size.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3 has-text-centered">Quantitative results</h2>
+        <div style="margin-top: 28px;"></div>
+        <div class="content has-text-centered">
+          <figure style="margin-bottom: 2.5rem;">
+            <img src="./projects/dage/figures/video_pointmap_results.png" alt="Video point-map evaluation." width="80%" style="max-width: 100%; border-radius: 8px;"/>
+          </figure>
+          <figure style="margin-bottom: 2.5rem;">
+            <img src="./projects/dage/figures/sharpness_depth_results.png" alt="Sharpness depth evaluation." width="40%" style="max-width: 100%; border-radius: 8px;"/>
+          </figure>
+          <figure style="margin-bottom: 2.5rem;">
+            <img src="./projects/dage/figures/recons_results.png" alt="Multi-view reconstruction evaluation." width="40%" style="max-width: 100%; border-radius: 8px;"/>
+          </figure>
+          <figure style="margin-bottom: 0;">
+            <img src="./projects/dage/figures/pose_results.png" alt="Camera pose evaluation." width="40%" style="max-width: 100%; border-radius: 8px;"/>
+          </figure>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop content">
+    <h2 class="title is-3">Discussion</h2>
+    <p>
+      We introduced DAGE, a dual-stream visual geometry transformer. A low-resolution stream efficiently estimates cameras and enforces cross-view consistency, while a high-resolution stream preserves sharp details; a lightweight adapter fuses them. This decouples resolution from sequence length, supporting 2K inputs and long videos at practical costs. Empirically, DAGE yields sharper pointmaps and outperforms prior video geometry methods. It matches the 3D reconstruction and pose accuracy of state-of-the-art models [95, 102] while running significantly faster.
+    </p>
+    <p>
+      <strong>Limitations.</strong> Performance can drop under extremely low overlap or rapid non-rigid motion; the HR path is memory-intensive at very high resolutions; and the current method does not recover dynamic motion.
+    </p>
+  </div>
+</section>
+
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title is-3">BibTeX</h2>
+    <pre><code>@inproceedings{ngo2026dage,
+  title={DAGE: Dual-Stream Architecture for Efficient and Fine-Grained Geometry Estimation},
+  author={Ngo, Tuan Duc and Huang, Jiahui and Oh, Seoung Wug and Blackburn-Matzen, Kevin and Kalogerakis, Evangelos and Gan, Chuang and Lee, Joon-Young},
+  booktitle={CVPR},
+  year={2026}
+}</code></pre>
+  </div>
+</section>
+
+
+<section class="section" id="Acknowledgements">
+  <div class="container is-max-desktop content">
+    <h2 class="title is-3">Acknowledgements</h2>
+    <p>
+      We thank Sangbeom Lim, Yihong Sun, Long Mai, Duc Hai Pham, and Minh-Quan Viet Bui for their valuable discussions.
+    </p>
+    <p>
+      Evangelos Kalogerakis has received funding from the European Research Council (ERC) under the Horizon research and innovation programme (Grant agreement No. 101124742).
+    </p>
+  </div>
+</section>
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <!-- <a class="icon-link"
+         href="https://arxiv.org/abs/2505.05473">
+        <i class="fas fa-file-pdf"></i>
+      </a>
+      <a class="icon-link" href="https://github.com/QitaoZhao/DiffusionSfM" class="external-link" disabled>
+        <i class="fab fa-github"></i>
+      </a> -->
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This website is built using this template (<a href="https://github.com/nerfies/nerfies.github.io">source code</a>)</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
