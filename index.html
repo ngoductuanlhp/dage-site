@@ -245,14 +245,14 @@
   <div class="container is-max-desktop">
     <h2 class="title is-3 has-text-centered">Runtime</h2>
     <div style="margin-top: 28px;"></div>
-    <div class="columns is-vcentered">
-      <div class="column is-one-fourth">
+    <div class="columns is-vcentered is-centered">
+      <div class="column is-3">
         <figure>
-          <img src="./projects/dage/figures/runtime.png" alt="Inference time vs. number of frames for DAGE and Pi3 at 2K and 540p resolutions." width="100%" style="max-width: 100%; border-radius: 8px;"/>
+          <img src="./projects/dage/figures/runtime.png" alt="Inference time vs. number of frames for DAGE and Pi3 at 2K and 540p resolutions." width="100%" style="max-width: 380px; border-radius: 8px;"/>
         </figure>
       </div>
-      <div class="column is-three-fourths">
-        <div class="content has-text-justified">
+      <div class="column is-6">
+        <div class="content has-text-justified" style="font-size: 1.2rem;">
           <p>
             Thanks to the dual-stream design, we restrict the computationally heavy global attention to the LR stream with a smaller number of image tokens, alleviating the quadratic scaling bottleneck of global transformers as in VGGT and Pi3. This significantly reduces runtime by 2× and 28× at 540p and 2K resolutions, respectively, enabling our model to process thousands of frames while keeping runtime largely insensitive to HR input size.
           </p>
@@ -270,16 +270,16 @@
         <div style="margin-top: 28px;"></div>
         <div class="content has-text-centered">
           <figure style="margin-bottom: 2.5rem;">
-            <img src="./projects/dage/figures/video_pointmap_results.png" alt="Video point-map evaluation." width="80%" style="max-width: 100%; border-radius: 8px;"/>
+            <img src="./projects/dage/figures/video_pointmap_results.png" alt="Video point-map evaluation." width="60%" style="max-width: 100%; border-radius: 8px;"/>
           </figure>
           <figure style="margin-bottom: 2.5rem;">
-            <img src="./projects/dage/figures/sharpness_depth_results.png" alt="Sharpness depth evaluation." width="40%" style="max-width: 100%; border-radius: 8px;"/>
+            <img src="./projects/dage/figures/sharpness_depth_results.png" alt="Sharpness depth evaluation." width="30%" style="max-width: 100%; border-radius: 8px;"/>
           </figure>
           <figure style="margin-bottom: 2.5rem;">
-            <img src="./projects/dage/figures/recons_results.png" alt="Multi-view reconstruction evaluation." width="40%" style="max-width: 100%; border-radius: 8px;"/>
+            <img src="./projects/dage/figures/recons_results.png" alt="Multi-view reconstruction evaluation." width="30%" style="max-width: 100%; border-radius: 8px;"/>
           </figure>
           <figure style="margin-bottom: 0;">
-            <img src="./projects/dage/figures/pose_results.png" alt="Camera pose evaluation." width="40%" style="max-width: 100%; border-radius: 8px;"/>
+            <img src="./projects/dage/figures/pose_results.png" alt="Camera pose evaluation." width="30%" style="max-width: 100%; border-radius: 8px;"/>
           </figure>
         </div>
 
