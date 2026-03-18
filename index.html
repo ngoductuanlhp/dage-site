@@ -594,14 +594,21 @@
 <script>
 (function() {
   function handleLoadingScreen() {
+    var LOADING_DISABLED = true;  // TEMP: set to false to re-enable loading screen
     var loadingScreen = document.getElementById('loading-screen');
     var loadingText = document.querySelector('.loader-text');
     var body = document.body;
+    if (LOADING_DISABLED) {
+      body.classList.remove('loading');
+      body.classList.add('loaded');
+      if (loadingScreen && loadingScreen.parentNode) loadingScreen.parentNode.removeChild(loadingScreen);
+      return;
+    }
     var minimumLoadTime = 2500;
     var startTime = Date.now();
     var contentReady = false;
     var minTimeReached = false;
-    var loadingStatus = { dom: false, videos: false, images: false };
+    var loadingStatus = { dom: false, videos: false, images: true };
 
     function updateLoadingText(text) {
       if (loadingText) loadingText.textContent = text;
@@ -650,7 +657,12 @@
 
     function trackInitialVideos() {
       updateLoadingText('Preparing videos...');
-      var criticalVideos = Array.from(document.querySelectorAll('video')).filter(function(v) { return v.src || (v.querySelector('source') && v.querySelector('source').src); });
+      var criticalVideos = Array.from(document.querySelectorAll('video')).filter(function(v) {
+        if (v.id === 'teaser') return false;
+        var src = v.src || (v.querySelector('source') && v.querySelector('source').src) || '';
+        if (src.indexOf('dage_teaser') !== -1 || src.indexOf('dage_method') !== -1) return false;
+        return !!src;
+      });
       criticalVideos = criticalVideos.slice(0, 8);
       if (criticalVideos.length === 0) {
         loadingStatus.videos = true;
@@ -682,32 +694,11 @@
       }, 5000);
     }
 
-    function trackImages() {
-      var images = Array.from(document.querySelectorAll('img'));
-      if (images.length === 0) {
-        loadingStatus.images = true;
-        checkContentReady();
-        return;
-      }
-      var imagesLoaded = 0;
-      var totalImages = images.length;
-      images.forEach(function(img) {
-        if (img.complete) imagesLoaded++;
-        else {
-          img.addEventListener('load', function() { imagesLoaded++; if (imagesLoaded >= totalImages) { loadingStatus.images = true; checkContentReady(); } }, { once: true });
-          img.addEventListener('error', function() { imagesLoaded++; if (imagesLoaded >= totalImages) { loadingStatus.images = true; checkContentReady(); } }, { once: true });
-        }
-      });
-      if (imagesLoaded >= totalImages) { loadingStatus.images = true; checkContentReady(); }
-    }
-
     if (document.readyState === 'complete') {
       trackInitialVideos();
-      trackImages();
     } else {
       window.addEventListener('load', function() {
         trackInitialVideos();
-        trackImages();
       });
     }
 
